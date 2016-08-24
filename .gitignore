@@ -81,3 +81,9 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+*.pdf
+*.eep
+*.lss
+*.srec
+*.map
+*.d
