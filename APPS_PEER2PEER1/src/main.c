@@ -69,7 +69,7 @@
 
 #include "config/rm_protocol.h"
 
-static baconPacket_t beacon_p = {bacon, 0xABCD, "Bennett Rand    "};
+static baconPacket_t beacon_p = {bacon, 0xABCD, "Bennett Rand"};
 static uint8_t req_seq = 0;
 static dataRequestPacket_t dr_p = {dataRequest, 0};
 
@@ -136,9 +136,7 @@ static void SendBeacon(void)
 	{
 		SYS_TaskHandler();
 	}
-	NWK_SetPanId(0xFFFF);
-	SYS_TaskHandler();
-	appDataReq.dstAddr = 0;
+	appDataReq.dstAddr = 0xFFFF;
 	appDataReq.dstEndpoint = APP_ENDPOINT;
 	appDataReq.srcEndpoint = APP_ENDPOINT;
 	appDataReq.options = NWK_OPT_BROADCAST_PAN_ID;
@@ -149,8 +147,6 @@ static void SendBeacon(void)
 
 	appUartBufferPtr = 0;
 	appDataReqBusy = true;
-	NWK_SetPanId(APP_PANID);
-	SYS_TaskHandler();
 	LED_Toggle(LED1);
 }
 
@@ -269,6 +265,7 @@ int main(void)
 	SYS_Init();
 	sio2host_init();
 	cpu_irq_enable();
+	appInit();
 	LED_Off(LED0);
 	SendBeacon();
 	while (1) {
